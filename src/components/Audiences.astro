@@ -1,0 +1,28 @@
+---
+import { audiences } from '../content/home';
+import SectionLabel from './SectionLabel.astro';
+---
+
+<section id="publicos" aria-labelledby="publicos-titulo" class="bg-white py-20 lg:py-32">
+  <div class="shell grid gap-x-12 gap-y-8 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <div class="lg:sticky lg:top-28">
+        <SectionLabel index="02" class="text-slate">Públicos</SectionLabel>
+        <h2 id="publicos-titulo" class="display mt-8 text-3xl sm:text-4xl">{audiences.title}</h2>
+        <p class="mt-6 max-w-sm text-base text-slate">{audiences.note}</p>
+      </div>
+    </div>
+    <ul class="border-t border-navy lg:col-span-8">
+      {
+        audiences.items.map((item) => (
+          <li class="grid gap-x-10 gap-y-3 border-b border-line py-8 sm:grid-cols-5 sm:py-10">
+            <h3 class="font-display text-2xl font-semibold tracking-[-0.03em] text-balance sm:col-span-2">
+              {item.name}
+            </h3>
+            <p class="text-slate sm:col-span-3">{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

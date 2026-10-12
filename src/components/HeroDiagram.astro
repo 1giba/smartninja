@@ -1,0 +1,50 @@
+---
+// Elemento gráfico do hero: três etapas conectadas, em escala crescente.
+// SVG puro, sem JavaScript; a animação respeita prefers-reduced-motion.
+---
+
+<svg
+  viewBox="0 0 520 520"
+  role="img"
+  aria-labelledby="diagrama-titulo"
+  class="h-auto w-full text-cream"
+  fill="none"
+>
+  <title id="diagrama-titulo">Diagrama com três etapas conectadas e em escala crescente: construir, operar e expandir.</title>
+  <defs>
+    <pattern id="diagrama-grade" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="13" cy="13" r="1" fill="currentColor" opacity="0.28"></circle>
+    </pattern>
+  </defs>
+  <rect width="520" height="520" fill="url(#diagrama-grade)"></rect>
+
+  <g stroke="currentColor" stroke-opacity="0.6" stroke-width="1.5">
+    <path class="diagram-line" pathLength="1" d="M0 429H39"></path>
+    <path class="diagram-line" pathLength="1" style="--delay:0.3s" d="M65 403V286H169"></path>
+    <path class="diagram-line" pathLength="1" style="--delay:1s" d="M208 247V130H325"></path>
+    <path class="diagram-line" pathLength="1" style="--delay:1.8s" d="M455 130H520"></path>
+    <path class="diagram-line" pathLength="1" style="--delay:1.8s" d="M351 65V13"></path>
+    <path class="diagram-line" pathLength="1" style="--delay:1.8s" d="M403 65V39H481"></path>
+    <path class="diagram-line" pathLength="1" style="--delay:1.8s" d="M455 169H481V299"></path>
+  </g>
+
+  <g class="diagram-node">
+    <rect x="39" y="403" width="52" height="52" fill="var(--color-navy)" stroke="currentColor" stroke-opacity="0.6" stroke-width="1.5"></rect>
+    <text x="106" y="434" class="label" style="font-size:15px" fill="currentColor">01 construir</text>
+  </g>
+  <g class="diagram-node" style="--delay:0.9s">
+    <rect x="62" y="283" width="6" height="6" fill="currentColor"></rect>
+    <rect x="169" y="247" width="78" height="78" fill="currentColor"></rect>
+    <text x="262" y="291" class="label" style="font-size:15px" fill="currentColor">02 operar</text>
+  </g>
+  <g class="diagram-node" style="--delay:1.7s">
+    <rect x="205" y="127" width="6" height="6" fill="currentColor"></rect>
+    <rect x="325" y="65" width="130" height="130" fill="var(--color-lime)"></rect>
+    <text x="325" y="222" class="label" style="font-size:15px" fill="currentColor">03 expandir</text>
+  </g>
+  <g class="diagram-node" style="--delay:2.6s" fill="var(--color-navy)" stroke="currentColor" stroke-opacity="0.6" stroke-width="1.5">
+    <circle cx="351" cy="13" r="4"></circle>
+    <circle cx="481" cy="39" r="4"></circle>
+    <circle cx="481" cy="299" r="4"></circle>
+  </g>
+</svg>

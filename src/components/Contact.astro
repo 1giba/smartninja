@@ -1,0 +1,29 @@
+---
+import { site } from '../config/site';
+import { contact } from '../content/home';
+import SectionLabel from './SectionLabel.astro';
+---
+
+<section id="contato" aria-labelledby="contato-titulo" class="on-dark bg-petrol py-24 text-cream lg:py-36">
+  <div class="shell grid gap-x-12 gap-y-8 lg:grid-cols-12">
+    <SectionLabel index="06" class="text-mist lg:col-span-3 lg:pt-4">Contato</SectionLabel>
+    <div class="lg:col-span-9">
+      <h2 id="contato-titulo" class="display text-[clamp(3rem,9vw,7rem)] text-white">{contact.title}</h2>
+      <p class="mt-8 max-w-xl text-lg text-mist">{contact.text}</p>
+      {
+        site.contactEmail ? (
+          <a
+            href={`mailto:${site.contactEmail}`}
+            class="mt-10 inline-block font-display text-2xl font-semibold tracking-[-0.02em] break-all underline decoration-lime decoration-2 underline-offset-8 hover:text-lime sm:text-4xl"
+          >
+            {site.contactEmail}
+          </a>
+        ) : (
+          <p class="label mt-10 inline-flex items-center gap-3 border border-dashed border-mist px-4 py-3 text-mist">
+            {contact.pending}
+          </p>
+        )
+      }
+    </div>
+  </div>
+</section>

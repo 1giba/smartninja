@@ -1,0 +1,18 @@
+# build
+dist/
+.astro/
+
+# dependências
+node_modules/
+
+# ambiente
+.env
+.env.*
+!.env.example
+
+# deploy
+.vercel/
+
+# sistema / editor
+.DS_Store
+npm-debug.log*

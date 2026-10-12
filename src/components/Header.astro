@@ -1,0 +1,27 @@
+---
+import { site } from '../config/site';
+import Wordmark from './Wordmark.astro';
+---
+
+<header class="top-0 z-40 bg-lime text-navy md:sticky">
+  <div class="shell flex flex-wrap items-center justify-between gap-x-8 py-3">
+    <Wordmark class="text-2xl" />
+    <nav aria-label="Principal" class="order-3 mt-3 w-full border-t border-navy/25 pt-2 md:order-none md:mt-0 md:ml-auto md:w-auto md:border-0 md:pt-0">
+      <ul class="flex gap-6 md:gap-8">
+        {
+          site.nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="label inline-block py-2 underline-offset-8 hover:underline"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a href="/#contato" class="btn-navy px-4 py-3">Contato</a>
+  </div>
+</header>

@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+---
+
+<BaseLayout title={`Página não encontrada — ${site.name}`} noindex>
+  <section class="shell py-32 lg:py-48">
+    <p class="label text-lime-deep">Erro 404</p>
+    <h1 class="display mt-6 text-5xl sm:text-7xl">Página não encontrada.</h1>
+    <p class="mt-8">
+      <a href="/" class="label underline decoration-lime-deep decoration-2 underline-offset-8 hover:decoration-navy">
+        Voltar para a página inicial
+      </a>
+    </p>
+  </section>
+</BaseLayout>

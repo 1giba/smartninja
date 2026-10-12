@@ -1,0 +1,49 @@
+---
+import { site } from '../config/site';
+import Wordmark from './Wordmark.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="on-dark bg-deep-navy text-cream">
+  <div class="shell grid gap-12 py-16 md:grid-cols-12">
+    <div class="md:col-span-6">
+      <Wordmark class="text-3xl" onDark />
+      <p class="mt-5 font-display text-xl tracking-[-0.02em]">{site.tagline}</p>
+      <p class="mt-3 max-w-sm text-base text-mist">{site.shortDescription}</p>
+    </div>
+    <nav aria-label="Rodapé" class="md:col-span-3">
+      <h2 class="label text-mist">Navegação</h2>
+      <ul class="mt-4 space-y-1">
+        {
+          site.nav.map((item) => (
+            <li>
+              <a href={item.href} class="inline-block py-1 underline-offset-4 hover:underline">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="md:col-span-3">
+      <h2 class="label text-mist">Contato</h2>
+      <p class="mt-4">
+        {
+          site.contactEmail ? (
+            <a href={`mailto:${site.contactEmail}`} class="inline-block py-1 break-all underline-offset-4 hover:underline">
+              {site.contactEmail}
+            </a>
+          ) : (
+            <a href="/#contato" class="inline-block py-1 underline-offset-4 hover:underline">
+              Seção de contato
+            </a>
+          )
+        }
+      </p>
+    </div>
+  </div>
+  <div class="border-t border-line-dark">
+    <p class="shell label py-6 text-mist">© {year} {site.name}. Todos os direitos reservados.</p>
+  </div>
+</footer>

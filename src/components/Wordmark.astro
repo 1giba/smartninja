@@ -1,0 +1,38 @@
+---
+// Marca: mascote oficial + nome tipográfico. Sobre fundos claros o mascote
+// aparece direto, com a transparência do arquivo original. Sobre fundos
+// escuros (onDark) ele recebe uma pequena base clara, porque o personagem é
+// azul-marinho e perderia o contorno.
+import { Image } from 'astro:assets';
+import mascot from '../assets/smartninja.png';
+import { site } from '../config/site';
+
+interface Props {
+  class?: string;
+  onDark?: boolean;
+}
+
+const { class: className = '', onDark = false } = Astro.props;
+---
+
+<a
+  href="/"
+  aria-label={`${site.name} — página inicial`}
+  class:list={[
+    'inline-flex items-center gap-2.5 font-display leading-none tracking-[-0.04em]',
+    onDark && 'text-cream',
+    className,
+  ]}
+>
+  <span class:list={['grid size-[1.75em] shrink-0 place-items-center', onDark && 'rounded-[0.3em] bg-cream']}>
+    <Image
+      src={mascot}
+      alt=""
+      width={96}
+      height={96}
+      loading="eager"
+      class:list={[onDark ? 'size-[1.5em]' : 'size-[1.75em]']}
+    />
+  </span>
+  <span aria-hidden="true"><span class="font-normal">Smart</span><span class="font-extrabold">Ninja</span></span>
+</a>

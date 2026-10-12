@@ -1,0 +1,23 @@
+---
+import { approach } from '../content/home';
+import SectionLabel from './SectionLabel.astro';
+---
+
+<section aria-labelledby="abordagem-titulo" class="py-20 lg:py-32">
+  <div class="shell grid gap-x-12 gap-y-8 lg:grid-cols-12">
+    <SectionLabel index="04" class="text-slate lg:col-span-3 lg:pt-3">Abordagem</SectionLabel>
+    <div class="lg:col-span-9">
+      <h2 id="abordagem-titulo" class="display max-w-3xl text-3xl sm:text-5xl">{approach.title}</h2>
+      <dl class="mt-14 border-t border-navy">
+        {
+          approach.principles.map((principle) => (
+            <div class="grid gap-x-10 gap-y-2 border-b border-line py-7 sm:grid-cols-5">
+              <dt class="font-display text-xl font-semibold tracking-[-0.02em] sm:col-span-2">{principle.name}</dt>
+              <dd class="text-slate sm:col-span-3">{principle.text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
