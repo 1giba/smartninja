@@ -6,6 +6,8 @@ export const hero = {
   eyebrow: 'Plataforma digital para negócios de tecnologia',
   title: 'Tecnologia para quem constrói o futuro.',
   lead: 'Uma plataforma digital para empresas de tecnologia, startups e organizações que impulsionam a inovação.',
+  audiencesLabel: 'Pensada para',
+  audiences: ['Startups', 'Empresas de tecnologia', 'Polos e hubs de inovação', 'Aceleradoras'],
 };
 
 export const vision = {
@@ -14,6 +16,22 @@ export const vision = {
     'Cobrar, gerenciar assinaturas, integrar sistemas, crescer. São problemas conhecidos, mas cada empresa acaba resolvendo tudo de novo, com tempo e pessoas que deveriam estar dedicados ao próprio produto.',
     'A SmartNinja está sendo construída para ser essa base: uma plataforma digital que acompanhe um negócio digital desde a primeira versão até a expansão.',
   ],
+  // Comparação visual da seção. Os dois parágrafos acima acompanham, na ordem,
+  // os dois cenários. As responsabilidades do primeiro são as que o primeiro
+  // parágrafo cita; as do segundo vêm de platform.areas.
+  comparison: {
+    product: 'Produto da empresa',
+    own: {
+      label: 'Infraestrutura própria',
+      items: ['Cobrar', 'Gerenciar assinaturas', 'Integrar sistemas', 'Crescer'],
+      caption: 'Construída e mantida pela própria empresa',
+    },
+    shared: {
+      label: 'Com a SmartNinja',
+      link: 'integração',
+      caption: 'Base SmartNinja, em construção',
+    },
+  },
   stages: [
     {
       name: 'Construir',
@@ -57,6 +75,8 @@ export const platform = {
   title: 'Uma plataforma SaaS, construída por áreas.',
   lead: 'A visão é uma plataforma digital única para negócios de tecnologia. As áreas abaixo mostram para onde o desenvolvimento aponta: fazem parte da visão do produto, não de um catálogo de funcionalidades disponíveis.',
   areasLabel: 'Áreas de desenvolvimento',
+  baseLabel: 'Base SmartNinja',
+  baseStatus: 'em construção',
   areas: [
     {
       name: 'Billing e assinaturas',
@@ -79,6 +99,17 @@ export const platform = {
 
 export const approach = {
   title: 'Tecnologia aplicada ao trabalho de construir e expandir negócios.',
+  // Rótulos do diagrama de integração. As letras A, B e C do diagrama seguem a
+  // ordem de `principles`; os nomes das áreas vêm de platform.areas.
+  flow: {
+    clientLabel: 'Empresa',
+    product: 'Produto da empresa',
+    systems: 'Sistemas que o negócio já utiliza',
+    link: 'Os dois se ligam à base por meio das APIs.',
+    baseLabel: 'Base SmartNinja, em construção',
+    ai: 'Inteligência artificial',
+    aiStatus: 'adiante',
+  },
   principles: [
     {
       name: 'A base vem primeiro',

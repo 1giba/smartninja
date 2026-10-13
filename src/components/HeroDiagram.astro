@@ -1,50 +1,202 @@
 ---
-// Elemento gráfico do hero: três etapas conectadas, em escala crescente.
-// SVG puro, sem JavaScript; a animação respeita prefers-reduced-motion.
+// Elemento gráfico do hero: o produto do cliente (vanilla, tracejado) apoiado
+// na base SmartNinja (lime, sólido), formada pelas quatro áreas de
+// desenvolvimento. O SVG é calculado no build e não usa JavaScript; os nomes
+// ficam em HTML, fora do SVG, para não encolherem junto com o desenho.
+import { Image } from 'astro:assets';
+import mascot from '../assets/smartninja.png';
+import { platform } from '../content/home';
+
+const labels = {
+  product: 'Seu produto',
+  productNote: 'o que o torna único',
+  base: 'Base SmartNinja',
+  baseNote: 'a mesma em todas as fases',
+  hint: 'selecione uma área para destacá-la no diagrama',
+};
+
+// Projeção isométrica: (x, y) no plano da base, z na vertical, em px do viewBox.
+const COS = 86.6;
+const SIN = 50;
+const ORIGIN = { x: 240, y: 285 };
+const sx = (x: number, y: number) => ORIGIN.x + (x - y) * COS;
+const sy = (x: number, y: number, z = 0) => ORIGIN.y + (x + y) * SIN - z;
+const points = (...corners: [number, number, number][]) =>
+  corners.map(([x, y, z]) => `${sx(x, y).toFixed(1)},${sy(x, y, z).toFixed(1)}`).join(' ');
+
+const GAP = 0.12; // vão entre módulos
+const SPAN = 2 + GAP; // lado da base
+const DEPTH = 26; // espessura dos módulos
+const LIFT = 185; // altura do plano do produto
+const SLAB = 24; // espessura do bloco do produto
+const TRAVEL = 28; // distância que o produto percorre ao pousar, na carga
+
+// Posição de cada área na base. A ordem do array é a de pintura (do fundo para
+// a frente); `area` é o índice em platform.areas. Os módulos do fundo e da
+// frente ficam alinhados na tela, então `shift` desloca o ponto de conexão de
+// cada um para um lado e as quatro conexões permanecem distintas.
+const tiles = [
+  { area: 1, col: 0, row: 0, shift: -0.25 },
+  { area: 2, col: 1, row: 0, shift: 0 },
+  { area: 0, col: 0, row: 1, shift: 0 },
+  { area: 3, col: 1, row: 1, shift: 0.25 },
+].map(({ area, col, row, shift }) => {
+  const x0 = col * (1 + GAP);
+  const y0 = row * (1 + GAP);
+  const x1 = x0 + 1;
+  const y1 = y0 + 1;
+  const cx = x0 + 0.5;
+  const cy = y0 + 0.5;
+  return {
+    number: area + 1,
+    top: points([x0, y0, 0], [x1, y0, 0], [x1, y1, 0], [x0, y1, 0]),
+    left: points([x0, y1, 0], [x1, y1, 0], [x1, y1, -DEPTH], [x0, y1, -DEPTH]),
+    right: points([x1, y0, 0], [x1, y1, 0], [x1, y1, -DEPTH], [x1, y0, -DEPTH]),
+    center: { x: sx(cx, cy), y: sy(cx, cy) },
+    // Conexão vertical: sai do módulo (acima do número, quando passa por ele)
+    // e termina no plano do produto.
+    wire: {
+      x: sx(cx + shift, cy - shift),
+      from: sy(cx + shift, cy - shift) - (shift === 0 ? 24 : 0),
+      to: sy(cx + shift, cy - shift, LIFT),
+      // Quanto a conexão começa esticada para acompanhar o produto na carga.
+      stretch: 1 + TRAVEL / (LIFT - (shift === 0 ? 24 : 0)),
+    },
+  };
+});
+
+const plane = points([0, 0, LIFT], [SPAN, 0, LIFT], [SPAN, SPAN, LIFT], [0, SPAN, LIFT]);
+const a = 0.56;
+const b = SPAN - a;
+const top = LIFT + SLAB;
+const slab = {
+  top: points([a, a, top], [b, a, top], [b, b, top], [a, b, top]),
+  left: points([a, b, top], [b, b, top], [b, b, LIFT], [a, b, LIFT]),
+  right: points([b, a, top], [b, b, top], [b, b, LIFT], [b, a, LIFT]),
+};
+
+// Guias que ligam os rótulos em HTML ao canto esquerdo de cada camada. A do
+// produto começa encolhida na carga: o topo fica parado junto ao rótulo e a
+// base acompanha o canto do plano.
+const guideX = sx(0, SPAN).toFixed(1);
+const GUIDE_TOP = 110;
+const guideStretch = 1 - TRAVEL / (sy(0, SPAN, LIFT) - GUIDE_TOP);
+const guides = {
+  product: `M${guideX} ${sy(0, SPAN, LIFT).toFixed(1)}V${GUIDE_TOP}`,
+  base: `M${guideX} ${sy(0, SPAN, -DEPTH).toFixed(1)}V528`,
+};
 ---
 
-<svg
-  viewBox="0 0 520 520"
-  role="img"
-  aria-labelledby="diagrama-titulo"
-  class="h-auto w-full text-vanilla"
-  fill="none"
->
-  <title id="diagrama-titulo">Diagrama com três etapas conectadas e em escala crescente: construir, operar e expandir.</title>
-  <defs>
-    <pattern id="diagrama-grade" width="26" height="26" patternUnits="userSpaceOnUse">
-      <circle cx="13" cy="13" r="1" fill="currentColor" opacity="0.28"></circle>
-    </pattern>
-  </defs>
-  <rect width="520" height="520" fill="url(#diagrama-grade)"></rect>
+<figure class="hero-diagram relative" style={`--travel:${TRAVEL}px`}>
+  <p class="label absolute top-0 left-0 z-10 text-vanilla">
+    {labels.product}
+    <span class="mt-1 block font-sans text-base leading-snug font-normal tracking-normal text-mist normal-case">
+      {labels.productNote}
+    </span>
+  </p>
 
-  <g stroke="currentColor" stroke-opacity="0.6" stroke-width="1.5">
-    <path class="diagram-line" pathLength="1" d="M0 429H39"></path>
-    <path class="diagram-line" pathLength="1" style="--delay:0.3s" d="M65 403V286H169"></path>
-    <path class="diagram-line" pathLength="1" style="--delay:1s" d="M208 247V130H325"></path>
-    <path class="diagram-line" pathLength="1" style="--delay:1.8s" d="M455 130H520"></path>
-    <path class="diagram-line" pathLength="1" style="--delay:1.8s" d="M351 65V13"></path>
-    <path class="diagram-line" pathLength="1" style="--delay:1.8s" d="M403 65V39H481"></path>
-    <path class="diagram-line" pathLength="1" style="--delay:1.8s" d="M455 169H481V299"></path>
-  </g>
+  <svg
+    viewBox="0 0 480 528"
+    role="img"
+    aria-labelledby="diagrama-titulo diagrama-descricao"
+    class="relative block h-auto w-full"
+    fill="none"
+  >
+    <title id="diagrama-titulo">Diagrama: a base SmartNinja sustenta o produto do cliente.</title>
+    <desc id="diagrama-descricao">
+      Na camada de baixo, quatro áreas de desenvolvimento formam a base: {platform.areas.map((area) => area.name).join(', ')}.
+      Na camada de cima fica o produto do cliente, ligado a cada uma das quatro áreas.
+    </desc>
 
-  <g class="diagram-node">
-    <rect x="39" y="403" width="52" height="52" fill="var(--color-navy)" stroke="currentColor" stroke-opacity="0.6" stroke-width="1.5"></rect>
-    <text x="106" y="434" class="label" style="font-size:15px" fill="currentColor">01 construir</text>
-  </g>
-  <g class="diagram-node" style="--delay:0.9s">
-    <rect x="62" y="283" width="6" height="6" fill="currentColor"></rect>
-    <rect x="169" y="247" width="78" height="78" fill="currentColor"></rect>
-    <text x="262" y="291" class="label" style="font-size:15px" fill="currentColor">02 operar</text>
-  </g>
-  <g class="diagram-node" style="--delay:1.7s">
-    <rect x="205" y="127" width="6" height="6" fill="currentColor"></rect>
-    <rect x="325" y="65" width="130" height="130" fill="var(--color-lime)"></rect>
-    <text x="325" y="222" class="label" style="font-size:15px" fill="currentColor">03 expandir</text>
-  </g>
-  <g class="diagram-node" style="--delay:2.6s" fill="var(--color-navy)" stroke="currentColor" stroke-opacity="0.6" stroke-width="1.5">
-    <circle cx="351" cy="13" r="4"></circle>
-    <circle cx="481" cy="39" r="4"></circle>
-    <circle cx="481" cy="299" r="4"></circle>
-  </g>
-</svg>
+    {
+      tiles.map((tile) => (
+        <g class="tile" data-tile={tile.number}>
+          <polygon points={tile.left} fill="var(--color-lime-shade)" />
+          <polygon points={tile.right} fill="var(--color-lime-shadow)" />
+          <polygon class="tile-top" points={tile.top} fill="var(--color-lime)" stroke="var(--color-white)" />
+          <text
+            x={tile.center.x.toFixed(1)}
+            y={(tile.center.y + 8).toFixed(1)}
+            text-anchor="middle"
+            class="font-mono font-medium"
+            style="font-size:22px"
+            fill="var(--color-deep-navy)"
+          >
+            0{tile.number}
+          </text>
+        </g>
+      ))
+    }
+
+    <g stroke="var(--color-mist)" stroke-dasharray="5 5">
+      {
+        tiles.map((tile) => (
+          <path
+            class="wire"
+            data-wire={tile.number}
+            style={`--stretch:${tile.wire.stretch.toFixed(4)}`}
+            d={`M${tile.wire.x.toFixed(1)} ${tile.wire.from.toFixed(1)}V${tile.wire.to.toFixed(1)}`}
+          />
+        ))
+      }
+    </g>
+
+    <g class="product">
+      <polygon
+        points={plane}
+        fill="var(--color-vanilla)"
+        fill-opacity="0.09"
+        stroke="var(--color-vanilla)"
+        stroke-width="1.5"
+        stroke-dasharray="6 5"
+      ></polygon>
+      {tiles.map((tile) => <circle cx={tile.wire.x.toFixed(1)} cy={tile.wire.to.toFixed(1)} r="3" fill="var(--color-mist)" />)}
+      <polygon points={slab.left} fill="var(--color-vanilla-shade)"></polygon>
+      <polygon points={slab.right} fill="var(--color-vanilla-shadow)"></polygon>
+      <polygon points={slab.top} fill="var(--color-vanilla)"></polygon>
+    </g>
+
+    <path
+      class="guide"
+      style={`--stretch:${guideStretch.toFixed(4)}`}
+      d={guides.product}
+      stroke="var(--color-vanilla)"
+      stroke-opacity="0.6"
+      stroke-width="1.5"
+    ></path>
+    <path d={guides.base} stroke="var(--color-lime)" stroke-opacity="0.6" stroke-width="1.5"></path>
+  </svg>
+
+  <p class="label relative flex items-center gap-4 text-lime">
+    <span class="grid size-14 shrink-0 place-items-center rounded-[0.6rem] bg-vanilla">
+      <Image src={mascot} alt="" width={112} height={112} class="size-12" />
+    </span>
+    <span>
+      {labels.base}
+      <span class="mt-1 block font-sans text-base leading-snug font-normal tracking-normal text-mist normal-case">
+        {labels.baseNote}
+      </span>
+    </span>
+  </p>
+
+  <fieldset class="relative mt-5">
+    <legend class="label pb-3 text-mist">
+      {platform.areasLabel}<span class="sr-only">: {labels.hint}</span>
+    </legend>
+    <div class="grid gap-x-6 border-t border-line-dark min-[26rem]:grid-cols-2">
+      {
+        platform.areas.map((area, i) => (
+          <label
+            data-area={i + 1}
+            class="area label relative flex min-h-11 cursor-pointer items-baseline gap-3 border-b border-line-dark py-3.5 text-vanilla"
+          >
+            <input type="radio" name="hero-area" class="sr-only" />
+            <span aria-hidden="true" class="area-mark size-2 shrink-0 border border-lime" />
+            <span class="text-lime">0{i + 1}</span>
+            <span>{area.name}</span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+</figure>

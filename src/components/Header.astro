@@ -4,7 +4,7 @@ import Wordmark from './Wordmark.astro';
 ---
 
 <header class="top-0 z-40 border-b border-navy bg-lime text-navy md:sticky">
-  <div class="shell flex flex-wrap items-center justify-between gap-x-8 py-3">
+  <div class="shell flex flex-wrap items-center justify-between gap-x-3 py-3 min-[360px]:gap-x-8">
     <Wordmark class="text-2xl" />
     <nav aria-label="Principal" class="order-3 mt-3 w-full border-t border-navy/25 pt-2 md:order-none md:mt-0 md:ml-auto md:w-auto md:border-0 md:pt-0">
       <ul class="flex gap-6 md:gap-8">
@@ -22,6 +22,6 @@ import Wordmark from './Wordmark.astro';
         }
       </ul>
     </nav>
-    <a href="/#contato" class="btn-navy px-4 py-3">Contato</a>
+    <a href="/#contato" class="btn-navy px-3 py-3 whitespace-nowrap min-[360px]:px-4">Contato</a>
   </div>
 </header>

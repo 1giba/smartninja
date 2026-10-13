@@ -7,12 +7,12 @@ const year = new Date().getFullYear();
 
 <footer class="on-dark bg-deep-navy text-vanilla">
   <div class="shell grid gap-12 py-16 md:grid-cols-12">
-    <div class="md:col-span-6">
+    <div class="md:col-span-12 lg:col-span-5 xl:col-span-6">
       <Wordmark class="text-3xl" onDark />
       <p class="mt-5 font-display text-xl tracking-[-0.02em]">{site.tagline}</p>
       <p class="mt-3 max-w-sm text-base text-mist">{site.shortDescription}</p>
     </div>
-    <nav aria-label="Rodapé" class="md:col-span-3">
+    <nav aria-label="Rodapé" class="md:col-span-6 lg:col-span-3">
       <h2 class="label text-mist">Navegação</h2>
       <ul class="mt-4 space-y-1">
         {
@@ -26,7 +26,7 @@ const year = new Date().getFullYear();
         }
       </ul>
     </nav>
-    <div class="md:col-span-3">
+    <div class="md:col-span-6 lg:col-span-4 xl:col-span-3">
       <h2 class="label text-mist">Contato</h2>
       <p class="mt-4">
         {

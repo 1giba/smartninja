@@ -1,6 +1,17 @@
 ---
-import { vision } from '../content/home';
+import { platform, vision } from '../content/home';
 import SectionLabel from './SectionLabel.astro';
+
+const { comparison } = vision;
+const [problem, change] = vision.paragraphs;
+const product = 'bg-vanilla px-4 py-3 font-display font-semibold tracking-[-0.02em] text-deep-navy';
+const item = 'flex min-h-16 items-center p-3 font-display leading-tight font-semibold tracking-[-0.02em]';
+const stub = 'mx-auto block w-0 border-l-[1.5px] border-dashed border-mist';
+
+// Desenho de cada etapa: a mesma base lime nas três, com o negócio (blocos
+// navy) crescendo sobre ela. Alturas dos blocos em px do viewBox, na ordem
+// de vision.stages.
+const stageBlocks = [[14], [14, 24], [14, 24, 32, 38]];
 ---
 
 <section id="visao" aria-labelledby="visao-titulo" class="py-20 lg:py-32">
@@ -8,8 +19,52 @@ import SectionLabel from './SectionLabel.astro';
     <SectionLabel index="01" class="text-slate lg:col-span-3 lg:pt-3">Visão</SectionLabel>
     <div class="lg:col-span-9">
       <h2 id="visao-titulo" class="display max-w-4xl text-3xl sm:text-5xl">{vision.title}</h2>
-      <div class="mt-10 grid max-w-4xl gap-6 text-lg text-slate md:grid-cols-2 md:gap-10">
-        {vision.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </div>
+
+  <!-- Comparação: o mesmo produto (vanilla) sobre peças próprias e separadas,
+       ou ligado por integração a uma base única (lime). -->
+  <div class="shell mt-10 lg:mt-16">
+    <div class="on-dark dot-grid grid bg-navy text-vanilla lg:grid-cols-2">
+      <div class="p-5 sm:p-10 lg:p-12">
+        <h3 class="label flex items-center gap-3 text-mist">
+          <span aria-hidden="true" class="size-2 border border-mist"></span>
+          {comparison.own.label}
+        </h3>
+        <figure class="mt-8">
+          <p class={product}>{comparison.product}</p>
+          <ul class="grid grid-cols-2 gap-x-3 pb-3">
+            {
+              comparison.own.items.map((name, i) => (
+                <li class:list={[i % 2 === 1 && 'relative top-3']}>
+                  <span aria-hidden="true" class:list={[stub, i % 2 === 1 ? '-mt-3 h-8' : 'h-5']} />
+                  <span class:list={[item, 'border-[1.5px] border-vanilla text-vanilla']}>{name}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <figcaption class="label mt-5 text-mist">{comparison.own.caption}</figcaption>
+        </figure>
+        <p class="mt-8 text-lg text-mist">{problem}</p>
+      </div>
+
+      <div class="border-t border-line-dark p-5 sm:p-10 lg:border-t-0 lg:border-l lg:p-12">
+        <h3 class="label flex items-center gap-3 text-lime">
+          <span aria-hidden="true" class="size-2 bg-lime"></span>
+          {comparison.shared.label}
+        </h3>
+        <figure class="mt-8">
+          <p class={product}>{comparison.product}</p>
+          <p class="relative h-12">
+            <span aria-hidden="true" class:list={[stub, 'h-full']}></span>
+            <span class="label absolute top-1/2 left-1/2 ml-4 -translate-y-1/2 text-mist">{comparison.shared.link}</span>
+          </p>
+          <ul class="grid grid-cols-2 gap-[2px]">
+            {platform.areas.map((area) => <li class:list={[item, 'bg-lime text-deep-navy']}>{area.name}</li>)}
+          </ul>
+          <figcaption class="label mt-5 text-lime">{comparison.shared.caption}</figcaption>
+        </figure>
+        <p class="mt-8 text-lg text-mist">{change}</p>
       </div>
     </div>
   </div>
@@ -19,6 +74,10 @@ import SectionLabel from './SectionLabel.astro';
       {
         vision.stages.map((stage, i) => (
           <li class="border-b border-line py-8 md:border-b-0 md:border-l md:px-8 md:first:border-l-0 md:first:pl-0">
+            <svg viewBox="0 0 120 56" aria-hidden="true" class="mb-6 block h-auto w-36">
+              {stageBlocks[i]?.map((height, n) => <rect x={8 + n * 26} y={40 - height} width="22" height={height} fill="var(--color-navy)" />)}
+              <rect x="0.75" y="40" width="118.5" height="15.25" fill="var(--color-lime)" stroke="var(--color-navy)" stroke-width="1.5" />
+            </svg>
             <span aria-hidden="true" class="label text-lime-deep">0{i + 1}</span>
             <h3 class="mt-4 font-display text-3xl font-semibold tracking-[-0.03em]">{stage.name}</h3>
             <p class="mt-3 max-w-sm text-slate">{stage.text}</p>

@@ -1,6 +1,12 @@
 ---
 import { platform } from '../content/home';
 import SectionLabel from './SectionLabel.astro';
+
+// Mapa da plataforma em elevação: quatro módulos independentes apoiados na
+// mesma base. No desktop a base é a laje inferior e cada módulo desce até ela
+// por dois pilares; em telas menores a base vira também um trilho à esquerda,
+// para que os módulos empilhados não pareçam etapas de um fluxo.
+const pillar = 'w-[1.5px] bg-lime';
 ---
 
 <section id="plataforma" aria-labelledby="plataforma-titulo" class="on-dark bg-navy py-20 text-vanilla lg:py-32">
@@ -12,23 +18,77 @@ import SectionLabel from './SectionLabel.astro';
     </div>
   </div>
 
-  <div class="shell mt-16 grid gap-x-12 lg:mt-24 lg:grid-cols-12">
-    <div class="lg:col-span-9 lg:col-start-4">
-      <h3 class="label text-mist">{platform.areasLabel}</h3>
-      <ul class="mt-5 border-t border-vanilla">
+  <div class="shell mt-16 lg:mt-24">
+    <h3 class="label text-mist">{platform.areasLabel}</h3>
+    <div class="dot-grid mt-6 grid grid-cols-[auto_minmax(0,1fr)] pt-4 lg:block lg:pt-0">
+      <span aria-hidden="true" class="w-2.5 bg-lime lg:hidden"></span>
+      <ul class="grid gap-y-4 pb-4 lg:grid-cols-4 lg:gap-x-5 lg:pb-0">
         {
           platform.areas.map((area, i) => (
-            <li class="grid gap-x-8 gap-y-2 border-b border-line-dark py-7 sm:grid-cols-12 sm:items-baseline">
-              <span aria-hidden="true" class="label text-lime sm:col-span-1">
-                0{i + 1}
+            <li class="flex lg:flex-col">
+              <span aria-hidden="true" class="mt-12 h-[1.5px] w-4 shrink-0 bg-lime sm:w-8 lg:hidden" />
+              <div class="flex-1 border-[1.5px] border-lime bg-navy p-5 sm:flex sm:gap-8 sm:p-7 lg:block lg:p-6">
+                <svg
+                  viewBox="0 0 96 56"
+                  aria-hidden="true"
+                  class="block h-auto w-24 shrink-0 sm:w-28 lg:w-36"
+                  fill="none"
+                  stroke="var(--color-lime)"
+                  stroke-width="1.5"
+                >
+                  {/* Billing e assinaturas: o ciclo de cobrança e os planos. */}
+                  {i === 0 && (
+                    <>
+                      <circle cx="26" cy="28" r="20" />
+                      <path d="M26 28V8A20 20 0 0 1 46 28Z" fill="var(--color-lime)" />
+                      <path d="M62 14.75H92M62 28H84M62 41.25H76" stroke-width="7" />
+                    </>
+                  )}
+                  {/* Pagamentos recorrentes: a mesma cobrança em intervalos iguais. */}
+                  {i === 1 && (
+                    <>
+                      <path d="M2 44H94" />
+                      <path d="M6 22H18V44H6ZM24 22H36V44H24ZM42 22H54V44H42ZM60 22H72V44H60ZM78 22H90V44H78Z" fill="var(--color-lime)" />
+                    </>
+                  )}
+                  {/* APIs: a plataforma (lime) ligada a um sistema do negócio (vanilla, tracejado). */}
+                  {i === 2 && (
+                    <>
+                      <rect x="2" y="12" width="32" height="32" fill="var(--color-lime)" />
+                      <path d="M34 28H46" />
+                      <circle cx="49" cy="28" r="3" />
+                      <g stroke="var(--color-vanilla)" stroke-dasharray="4 3">
+                        <path d="M52 28H62" />
+                        <rect x="62.75" y="12.75" width="30.5" height="30.5" />
+                      </g>
+                    </>
+                  )}
+                  {/* Growth: expansão, a mesma progressão da etapa Expandir. */}
+                  {i === 3 && (
+                    <>
+                      <path d="M2 50H94" />
+                      <path d="M8 38H22V50H8ZM30 28H44V50H30ZM52 18H66V50H52ZM74 6H88V50H74Z" fill="var(--color-lime)" />
+                    </>
+                  )}
+                </svg>
+                <div class="mt-6 sm:mt-0 lg:mt-8">
+                  <span aria-hidden="true" class="label text-lime">0{i + 1}</span>
+                  <h4 class="mt-3 font-display text-2xl leading-tight font-semibold tracking-[-0.03em] text-white">{area.name}</h4>
+                  <p class="mt-3 text-mist">{area.text}</p>
+                </div>
+              </div>
+              <span aria-hidden="true" class="hidden h-6 justify-between px-10 lg:flex">
+                <span class={pillar} />
+                <span class={pillar} />
               </span>
-              <h4 class="font-display text-2xl font-semibold tracking-[-0.03em] sm:col-span-5">{area.name}</h4>
-              <p class="text-mist sm:col-span-6">{area.text}</p>
             </li>
           ))
         }
       </ul>
-
+      <p class="label col-span-2 flex flex-wrap justify-between gap-x-8 gap-y-1 bg-lime px-5 py-4 text-deep-navy lg:px-6">
+        <span>{platform.baseLabel}</span>
+        <span>{platform.baseStatus}</span>
+      </p>
     </div>
   </div>
 </section>

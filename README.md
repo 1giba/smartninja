@@ -52,7 +52,7 @@ public/
   og.png                imagem Open Graph (1200×630)
 ```
 
-A paleta (navy, deep navy, petrol, lime, vanilla e white, mais os tons derivados) e as fontes ficam no bloco `@theme` de `src/styles/global.css`. O mascote é usado em `src/components/Wordmark.astro` (header e footer); para trocá-lo, substitua `src/assets/smartninja.png`.
+A paleta (navy, deep navy, petrol, lime, vanilla e white, mais os tons derivados) e as fontes ficam no bloco `@theme` de `src/styles/global.css`. O mascote é usado em `src/components/Wordmark.astro` (header e footer) e em `src/components/HeroDiagram.astro` (assinatura da base no hero); para trocá-lo, substitua `src/assets/smartninja.png`.
 
 ## Configuração
 

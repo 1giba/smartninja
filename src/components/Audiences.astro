@@ -6,9 +6,9 @@ import SectionLabel from './SectionLabel.astro';
 <section id="publicos" aria-labelledby="publicos-titulo" class="bg-white py-20 lg:py-32">
   <div class="shell grid gap-x-12 gap-y-8 lg:grid-cols-12">
     <div class="lg:col-span-4">
-      <div class="lg:sticky lg:top-28">
-        <SectionLabel index="02" class="text-slate">Públicos</SectionLabel>
-        <h2 id="publicos-titulo" class="display mt-8 text-3xl sm:text-4xl">{audiences.title}</h2>
+      <SectionLabel index="02" class="text-slate">Públicos</SectionLabel>
+      <div class="mt-8 lg:sticky lg:top-28">
+        <h2 id="publicos-titulo" class="display text-3xl sm:text-4xl">{audiences.title}</h2>
         <p class="mt-6 max-w-sm text-base text-slate">{audiences.note}</p>
       </div>
     </div>
