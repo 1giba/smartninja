@@ -1,21 +1,22 @@
 @import 'tailwindcss';
 
 /* Identidade visual: tokens de cor e tipografia. Trocar aqui altera o site todo.
-   As seis primeiras cores vêm do mascote; as demais são derivadas delas. */
+   Navy, deep navy, petrol, lime e white vêm do mascote; vanilla é o tom claro
+   e quente do site; as demais são derivadas delas. */
 @theme {
   --color-navy: #0b253b;
   --color-deep-navy: #071522;
   --color-petrol: #12364f;
   --color-lime: #b7f078;
-  --color-cream: #fff0d0;
+  --color-vanilla: #ffe082;
   --color-white: #ffffff;
 
   /* Derivadas */
-  --color-lime-deep: #356b0e; /* destaque legível sobre fundos claros */
+  --color-lime-deep: #2f6209; /* destaque legível sobre fundos claros */
   --color-slate: #465a6b; /* texto secundário sobre fundos claros */
   --color-mist: #b3c3cf; /* texto secundário sobre fundos escuros */
   --color-line: #0b253b29; /* divisórias sobre fundos claros */
-  --color-line-dark: #fff0d030; /* divisórias sobre fundos escuros */
+  --color-line-dark: #ffe08230; /* divisórias sobre fundos escuros */
 
   --font-display: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
@@ -29,7 +30,7 @@
   }
 
   body {
-    @apply bg-cream font-sans text-navy antialiased;
+    @apply bg-vanilla font-sans text-navy antialiased;
     font-size: 1.0625rem;
     line-height: 1.6;
   }
@@ -79,11 +80,11 @@
 
   /* Botões: .btn-navy sobre fundos claros ou verde-lima, .btn-lime sobre fundos escuros. */
   .btn-lime {
-    @apply inline-block bg-lime font-mono text-xs font-medium tracking-[0.14em] text-deep-navy uppercase transition-colors hover:bg-cream;
+    @apply inline-block bg-lime font-mono text-xs font-medium tracking-[0.14em] text-deep-navy uppercase transition-colors hover:bg-vanilla;
   }
 
   .btn-navy {
-    @apply inline-block bg-navy font-mono text-xs font-medium tracking-[0.14em] text-cream uppercase transition-colors hover:bg-petrol;
+    @apply inline-block bg-navy font-mono text-xs font-medium tracking-[0.14em] text-vanilla uppercase transition-colors hover:bg-petrol;
   }
 }
 

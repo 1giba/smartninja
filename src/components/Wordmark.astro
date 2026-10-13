@@ -20,11 +20,11 @@ const { class: className = '', onDark = false } = Astro.props;
   aria-label={`${site.name} — página inicial`}
   class:list={[
     'inline-flex items-center gap-2.5 font-display leading-none tracking-[-0.04em]',
-    onDark && 'text-cream',
+    onDark && 'text-vanilla',
     className,
   ]}
 >
-  <span class:list={['grid size-[1.75em] shrink-0 place-items-center', onDark && 'rounded-[0.3em] bg-cream']}>
+  <span class:list={['grid size-[1.75em] shrink-0 place-items-center', onDark && 'rounded-[0.3em] bg-vanilla']}>
     <Image
       src={mascot}
       alt=""

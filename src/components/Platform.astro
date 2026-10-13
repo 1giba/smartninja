@@ -3,7 +3,7 @@ import { platform } from '../content/home';
 import SectionLabel from './SectionLabel.astro';
 ---
 
-<section id="plataforma" aria-labelledby="plataforma-titulo" class="on-dark bg-navy py-20 text-cream lg:py-32">
+<section id="plataforma" aria-labelledby="plataforma-titulo" class="on-dark bg-navy py-20 text-vanilla lg:py-32">
   <div class="shell grid gap-x-12 gap-y-8 lg:grid-cols-12">
     <SectionLabel index="03" class="text-mist lg:col-span-3 lg:pt-3">Plataforma</SectionLabel>
     <div class="lg:col-span-9">
@@ -15,7 +15,7 @@ import SectionLabel from './SectionLabel.astro';
   <div class="shell mt-16 grid gap-x-12 lg:mt-24 lg:grid-cols-12">
     <div class="lg:col-span-9 lg:col-start-4">
       <h3 class="label text-mist">{platform.areasLabel}</h3>
-      <ul class="mt-5 border-t border-cream">
+      <ul class="mt-5 border-t border-vanilla">
         {
           platform.areas.map((area, i) => (
             <li class="grid gap-x-8 gap-y-2 border-b border-line-dark py-7 sm:grid-cols-12 sm:items-baseline">
