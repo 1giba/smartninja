@@ -3,7 +3,7 @@
 // visão ou roadmap, nem citar clientes, parceiros, números ou resultados.
 
 export const hero = {
-  eyebrow: 'Plataforma digital para negócios de tecnologia',
+  eyebrow: 'Billing e assinaturas para SaaS brasileiros',
   title: 'Tecnologia para quem constrói o futuro.',
   lead: 'Uma plataforma digital para empresas de tecnologia, startups e organizações que impulsionam a inovação.',
   audiencesLabel: 'Pensada para',

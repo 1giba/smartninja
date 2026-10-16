@@ -7,11 +7,11 @@ const contactEmail = (import.meta.env.PUBLIC_CONTACT_EMAIL || 'contato@smartninj
 export const site = {
   name: 'SmartNinja',
   tagline: 'Tecnologia para quem constrói o futuro.',
-  title: 'SmartNinja — Tecnologia para quem constrói o futuro',
+  title: 'SmartNinja — Billing e assinaturas para SaaS',
   description:
-    'A SmartNinja está construindo uma plataforma digital para empresas de tecnologia, startups, polos de inovação e aceleradoras: organizações que constroem e impulsionam negócios de tecnologia.',
+    'Estamos construindo uma infraestrutura de billing para SaaS brasileiros, com assinaturas, pagamentos recorrentes e APIs. Conheça nossa proposta.',
   shortDescription:
-    'Uma plataforma digital para empresas de tecnologia, startups e organizações que impulsionam a inovação.',
+    'Infraestrutura de billing e assinaturas para SaaS brasileiros, em construção.',
   locale: 'pt-BR',
   ogLocale: 'pt_BR',
   themeColor: '#b7f078',
@@ -19,7 +19,13 @@ export const site = {
     path: '/og.png',
     width: 1200,
     height: 630,
-    alt: 'SmartNinja — Tecnologia para quem constrói o futuro.',
+    alt: 'SmartNinja: billing e assinaturas para SaaS brasileiros. Infraestrutura em construção.',
+  },
+  // Ícone quadrado (≥ 48 px) para buscadores; também é o logo do JSON-LD.
+  icon: {
+    path: '/icon-192.png',
+    width: 192,
+    height: 192,
   },
   // Um valor inválido em PUBLIC_CONTACT_EMAIL faz a página não exibir endereço.
   contactEmail: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail) ? contactEmail : null,

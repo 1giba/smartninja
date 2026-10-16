@@ -4,6 +4,8 @@ import '@fontsource-variable/instrument-sans';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import '../styles/global.css';
+// Fonte do H1 e do wordmark, acima da dobra: só o subconjunto latino é pré-carregado.
+import displayFontLatin from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2?url';
 import { site } from '../config/site';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -16,10 +18,44 @@ interface Props {
 
 const { title = site.title, description = site.description, noindex = false } = Astro.props;
 
-// Só existe URL canônica quando a URL pública está configurada (SITE_URL).
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : null;
+// Só existe URL canônica quando a URL pública está configurada (SITE_URL), e
+// nunca em páginas noindex (como a 404), que não são conteúdo canônico.
+const canonical = Astro.site && !noindex ? new URL(Astro.url.pathname, Astro.site).href : null;
 // og:image exige URL absoluta, então também depende de SITE_URL.
 const ogImage = Astro.site ? new URL(site.ogImage.path, Astro.site).href : null;
+
+// Dados estruturados (WebSite + Organization), só em páginas canônicas.
+const home = Astro.site ? new URL('/', Astro.site).href : null;
+const structuredData =
+  canonical && home
+    ? {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Organization',
+            '@id': `${home}#organization`,
+            name: site.name,
+            url: home,
+            description: site.shortDescription,
+            logo: {
+              '@type': 'ImageObject',
+              url: new URL(site.icon.path, home).href,
+              width: site.icon.width,
+              height: site.icon.height,
+            },
+            ...(site.contactEmail && { email: site.contactEmail }),
+          },
+          {
+            '@type': 'WebSite',
+            '@id': `${home}#website`,
+            name: site.name,
+            url: home,
+            inLanguage: site.locale,
+            publisher: { '@id': `${home}#organization` },
+          },
+        ],
+      }
+    : null;
 ---
 
 <!doctype html>
@@ -28,11 +64,13 @@ const ogImage = Astro.site ? new URL(site.ogImage.path, Astro.site).href : null;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <link rel="preload" href={displayFontLatin} as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />
     <meta name="theme-color" content={site.themeColor} />
     {noindex && <meta name="robots" content="noindex" />}
     {canonical && <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href={site.icon.path} type="image/png" sizes={`${site.icon.width}x${site.icon.height}`} />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     {Astro.site && <link rel="sitemap" href="/sitemap-index.xml" />}
 
@@ -53,6 +91,11 @@ const ogImage = Astro.site ? new URL(site.ogImage.path, Astro.site).href : null;
       )
     }
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    {
+      structuredData && (
+        <script type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')} />
+      )
+    }
   </head>
   <body>
     <a href="#conteudo" class="skip-link">Ir para o conteúdo</a>

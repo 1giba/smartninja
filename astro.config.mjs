@@ -11,6 +11,9 @@ const site = process.env.SITE_URL || (vercelHost ? `https://${vercelHost}` : und
 
 export default defineConfig({
   site,
+  // Com o formato de build padrão (pasta/index.html), as rotas terminam em
+  // barra; canonical e sitemap seguem a mesma regra.
+  trailingSlash: 'always',
   integrations: site ? [sitemap()] : [],
   vite: {
     plugins: [tailwindcss()],

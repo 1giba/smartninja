@@ -49,6 +49,7 @@ src/
 public/
   favicon.ico           favicon fornecido pelo proprietário
   apple-touch-icon.png  mascote sobre a base creme (180×180)
+  icon-192.png          mascote sobre a base creme (192×192); ícone para buscadores e logo do JSON-LD
   og.png                imagem Open Graph (1200×630)
 ```
 
@@ -85,4 +86,4 @@ O Vercel detecta projetos Astro automaticamente; não é preciso adaptador nem `
 ## Pendências conhecidas
 
 - O mascote disponível tem 323×323 px. Para telas de alta densidade e usos maiores, substitua `src/assets/smartninja.png` por uma versão em resolução maior ou vetorial.
-- `public/og.png` e `public/apple-touch-icon.png` foram gerados a partir do mascote e precisam ser refeitos se a identidade mudar.
+- `public/og.png`, `public/apple-touch-icon.png` e `public/icon-192.png` foram gerados a partir do mascote e precisam ser refeitos se a identidade mudar.
